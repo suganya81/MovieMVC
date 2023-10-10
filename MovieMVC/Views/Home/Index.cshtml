@@ -1,8 +1,60 @@
-﻿@{
+﻿@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment WebHostEnvironment
+@using MovieMVC.Controllers
+@using MovieMVC.Areas.Identity.Data
+@using Microsoft.AspNetCore.Authorization;
+@model List<MovieMVC.Models.Post>
+@using Microsoft.AspNetCore.Razor
+
+@attribute [AllowAnonymous]
+@{   
     ViewData["Title"] = "Home Page";
+}
+@{
+
+    var ModelCategories = new List<Category>// Define a List<Category> containing your categories
+    {
+        new Category { Id = 1, CategoryName = "Drama" },
+        new Category { Id = 2, CategoryName = "Action" },
+        new Category { Id = 3, CategoryName = "Family"},
+        new Category { Id = 4, CategoryName = "Comedy" },
+        new Category { Id = 5, CategoryName = "Animation" },
+        new Category { Id = 6, CategoryName = "Crime"},
+        new Category { Id = 7, CategoryName = "Fantasy" },
+        new Category { Id = 8, CategoryName = "Historical" },
+        new Category { Id = 9, CategoryName = "Horror"},
+        new Category { Id = 10, CategoryName = "Romance"}
+    };
+
+    string GetCategoryName(int CategoryId) // Function to get the category name by categoryId
+    {
+        var category = ModelCategories.FirstOrDefault(c => c.Id == CategoryId);
+        return category != null ? category.CategoryName : "N/A"; // Provide a default value if category not found
+    }
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">List Of Movies</h1>
 </div>
+<body>
+    <div class="container">
+        <div class="row">
+            
+            @foreach(var post in Model)
+            {
+                <div class="col-md-4">
+                <div class="card" style="width: 18rem; height:25rem">
+                    <img src="@Url.Content(post.ImagePost)" class="card-img-top" alt="" style="height:12rem;width:100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">@post.Title</h5>
+                            <p class="card-text">@post.Description<br>@GetCategoryName(post.CategoryId)</p>
+                            <h5 class="card-title">Release Date: @post.ReleaseDate</h5>
+                       
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+                </div>
+            }
+           
+        </div>
+    </div>
+</body>
