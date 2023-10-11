@@ -14,6 +14,7 @@ namespace MovieMVC {
                 options.UseSqlServer(connectionString));
 
             builder.Services.AddDefaultIdentity<MovieMVCUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<MovieMVCContext>();
 
             builder.Services.Configure<IdentityOptions>(options =>
@@ -51,7 +52,35 @@ namespace MovieMVC {
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
-            app.Run();
+            using (var scope = app.Services.CreateScope())
+            {
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var roles = new[] { "Admin", "Manager", "Member" };
+                foreach (var role in roles)
+                {
+                    if (!await roleManager.RoleExistsAsync(role))
+                        await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
+            using (var scope = app.Services.CreateScope())
+            {
+                var _userManager = scope.ServiceProvider.GetService<UserManager<MovieMVCUser>>();
+
+                string email = "suganya8@gmail.com";
+                string password = "1234";
+
+                if(await _userManager.FindByEmailAsync(email) == null)
+                {
+                    var user = new MovieMVCUser();
+                    user.UserName = email;
+                    user.Email = email;
+                    await _userManager.CreateAsync(user, password);
+                    await _userManager.AddToRoleAsync(user, "Admin");
+
+                }
+
+            } 
+                app.Run();
         }
-}
+    }
 }

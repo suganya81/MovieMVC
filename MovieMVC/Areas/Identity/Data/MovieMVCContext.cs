@@ -22,7 +22,7 @@ public class MovieMVCContext : IdentityDbContext<MovieMVCUser>
         builder.Entity<Category>().HasData(new Category { Id = 1, CategoryName = "Drama" });
         builder.Entity<Category>().HasData(new Category { Id = 2, CategoryName = "Action" });
         builder.Entity<Category>().HasData(new Category { Id = 3, CategoryName = "Family" });
-        builder.Entity<Category>().HasData(new Category { Id = 4, CategoryName = "Commedy" });
+        builder.Entity<Category>().HasData(new Category { Id = 4, CategoryName = "Comedy" });
         builder.Entity<Category>().HasData(new Category { Id = 5, CategoryName = "Animation" });
         builder.Entity<Category>().HasData(new Category { Id = 6, CategoryName = "Crime" });
         builder.Entity<Category>().HasData(new Category { Id = 7, CategoryName = "Fantasy" });

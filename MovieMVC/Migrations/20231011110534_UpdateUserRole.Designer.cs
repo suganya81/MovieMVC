@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieMVC.Data;
 
@@ -11,9 +12,10 @@ using MovieMVC.Data;
 namespace MovieMVC.Migrations
 {
     [DbContext(typeof(MovieMVCContext))]
-    partial class MovieMVCContextModelSnapshot : ModelSnapshot
+    [Migration("20231011110534_UpdateUserRole")]
+    partial class UpdateUserRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
