@@ -66,7 +66,7 @@ namespace MovieMVC {
             {
                 var _userManager = scope.ServiceProvider.GetService<UserManager<MovieMVCUser>>();
 
-                string email = "suganya8@gmail.com";
+                string email = "admin@admin.com";
                 string password = "1234";
 
                 if(await _userManager.FindByEmailAsync(email) == null)

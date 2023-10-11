@@ -10,6 +10,7 @@ namespace MovieMVC.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly MovieMVCContext _context;
+        private dynamic filteredPosts;
 
         public HomeController(ILogger<HomeController> logger, MovieMVCContext context)
         {
@@ -22,9 +23,17 @@ namespace MovieMVC.Controllers
             List<Post> posts = _context.Posts.OrderByDescending(p => p.ReleaseDate).ToList();
             return posts;
         }
-        public IActionResult Index()
+        public IActionResult Index(string search)
         {
             List<Post> posts = GetAllPosts();
+            if(!String.IsNullOrEmpty(search))
+            {
+                var filteredPosts = string.IsNullOrWhiteSpace(search) ? posts : posts.Where(p => p.Title.Contains(search, StringComparison.OrdinalIgnoreCase));
+            }
+
+            ViewBag.FilteredPosts = filteredPosts;
+            ViewBag.Search = search;
+
             return View(posts);
         }
         
